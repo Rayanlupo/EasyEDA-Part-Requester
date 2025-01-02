@@ -1,6 +1,7 @@
 import smtplib
 import os
 from dotenv import load_dotenv
+import tkinter as tk
 
 load_dotenv()
 
@@ -14,6 +15,15 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+
+
+#setting up tkinter
+root = tk.Tk()
+root.title("EasyEDA Part Request")
+
+
+
 
 # Component Infos
 manufacturer = ""
