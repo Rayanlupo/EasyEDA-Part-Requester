@@ -26,9 +26,9 @@ excepted_day_of_usage = ""
 
 
 sender = os.getenv("YOUR_EMAIL")
-receiver = "contact@rayane.tech"
+receiver = ""
 password = os.getenv("PASSWORD")
-subject = "new part require"
+subject = "New Part Require"
 body = """"""
  #header 
 
@@ -44,7 +44,7 @@ product_package_type = input(f"{bcolors.HEADER}{bcolors.BOLD}Product Package Typ
 part_pdf_link = input(f"{bcolors.HEADER}{bcolors.BOLD}Part PDF Link: {bcolors.ENDC} \n")
 manufacturer_website = input(f"{bcolors.HEADER}{bcolors.BOLD}Manufacturer Website: {bcolors.ENDC}\n ")
 expected_day_of_usage = input(f"{bcolors.HEADER}{bcolors.BOLD}When do you except to use it? {bcolors.ENDC}\n")
-body = """Manufacturer: 
+body = f"""Manufacturer: 
 Manufacturer part number: {manufacturer_part_number}
 Footprint: {footprint}
 Product package type: {product_package_type}
