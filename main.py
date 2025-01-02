@@ -32,11 +32,7 @@ subject = "new part require"
 body = """"""
  #header 
 
-message = """ From: {sender}
- To: {Receiver}
- Subject: {subject}\n
- {body}
- """
+
 print(sender)
 print(password)
 server =  smtplib.SMTP("smtp.gmail.com",  587)
@@ -47,14 +43,19 @@ footprint = input(f"{bcolors.HEADER}{bcolors.BOLD}Footprint: {bcolors.ENDC}\n ")
 product_package_type = input(f"{bcolors.HEADER}{bcolors.BOLD}Product Package Type: {bcolors.ENDC}\n ")
 part_pdf_link = input(f"{bcolors.HEADER}{bcolors.BOLD}Part PDF Link: {bcolors.ENDC} \n")
 manufacturer_website = input(f"{bcolors.HEADER}{bcolors.BOLD}Manufacturer Website: {bcolors.ENDC}\n ")
-excepted_day_of_usage = input(f"{bcolors.HEADER}{bcolors.BOLD}When do you except to use it? {bcolors.ENDC}\n")
+expected_day_of_usage = input(f"{bcolors.HEADER}{bcolors.BOLD}When do you except to use it? {bcolors.ENDC}\n")
 body = """Manufacturer: 
 Manufacturer part number: {manufacturer_part_number}
 Footprint: {footprint}
 Product package type: {product_package_type}
 Part pdf links(or pdf file): {part_pdf_link}
 manufacturer website: {manufacturer_website}
-It is expected to be used in days: {excepted_day_of_usage} """
+It is expected to be used in days: {expected_day_of_usage} """
+message = f""" From: {sender}
+ To: {receiver}
+ Subject: {subject}\n
+ {body}
+ """
 try:
     server.login(sender, password)
     print("Logged In...")
@@ -62,4 +63,5 @@ try:
     print("Part requested")
 except smtplib.SMTPAuthenticationError:
     print("Unable to log in")
-    print('Please, make sure you have turned on the setting "Less Secure App Access" on your gmail account')  
+    print('Please, make sure your email and password are correct')
+server.quit()
