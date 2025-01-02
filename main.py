@@ -4,6 +4,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 # Component Infos
 manufacturer = ""
 manufacturer_part_number = ""
@@ -14,17 +25,11 @@ manufacturer_website = ""
 excepted_day_of_usage = ""
 
 
-sender = os.dotenv("YOUR_EMAIL")
-receiver = "haidy@easyeda.com"
+sender = os.getenv("YOUR_EMAIL")
+receiver = "contact@rayane.tech"
 password = os.getenv("PASSWORD")
 subject = "new part require"
-body = """Manufacturer: Maxim
-Manufacturer part number: MAX861ESA+T
-Footprint: SOIC-8
-Product package type: tape
-Part pdf links(or pdf file): 
-manufacturer website: https://www.analog.com/en/index.html
-It is expected to be used in days:  """
+body = """"""
  #header 
 
 message = """ From: {sender}
@@ -32,15 +37,24 @@ message = """ From: {sender}
  Subject: {subject}\n
  {body}
  """
-
+print(sender)
+print(password)
 server =  smtplib.SMTP("smtp.gmail.com",  587)
 server.starttls()
-manufacturer = input("\033[1; 32; 40m\Manufacturer: \n")
-manufacturer_part_number = input("\033[1; 32; 40m\Manufacturer Part Number:\n ")
-footprint = input("\033[1; 32; 40m\Footprint:\n ")
-part_pdf_link = input("\033[1; 32; 40m\Part PDF Link: \n")
-manufacturer_website = input("\033[1; 32; 40m\Manufacturer Website:\n ")
-excepted_day_of_usage = input("\033[1; 32; 40m\When do you except to use it?\n")
+manufacturer = input(f"{bcolors.HEADER}{bcolors.BOLD  }Manufacturer:{bcolors.ENDC} \n")
+manufacturer_part_number = input(f"{bcolors.HEADER}{bcolors.BOLD}Manufacturer Part Number: {bcolors.ENDC} \n")
+footprint = input(f"{bcolors.HEADER}{bcolors.BOLD}Footprint: {bcolors.ENDC}\n ")
+product_package_type = input(f"{bcolors.HEADER}{bcolors.BOLD}Product Package Type: {bcolors.ENDC}\n ")
+part_pdf_link = input(f"{bcolors.HEADER}{bcolors.BOLD}Part PDF Link: {bcolors.ENDC} \n")
+manufacturer_website = input(f"{bcolors.HEADER}{bcolors.BOLD}Manufacturer Website: {bcolors.ENDC}\n ")
+excepted_day_of_usage = input(f"{bcolors.HEADER}{bcolors.BOLD}When do you except to use it? {bcolors.ENDC}\n")
+body = """Manufacturer: 
+Manufacturer part number: {manufacturer_part_number}
+Footprint: {footprint}
+Product package type: {product_package_type}
+Part pdf links(or pdf file): {part_pdf_link}
+manufacturer website: {manufacturer_website}
+It is expected to be used in days: {excepted_day_of_usage} """
 try:
     server.login(sender, password)
     print("Logged In...")
