@@ -2,7 +2,7 @@ import smtplib
 import os
 from dotenv import load_dotenv
 import tkinter as tk
-
+from email.message import EmailMessage
 load_dotenv()
 
 class bcolors:
@@ -18,9 +18,7 @@ class bcolors:
 
 
 
-#setting up tkinter
-root = tk.Tk()
-root.title("EasyEDA Part Request")
+
 
 
 
@@ -54,24 +52,34 @@ product_package_type = input(f"{bcolors.HEADER}{bcolors.BOLD}Product Package Typ
 part_pdf_link = input(f"{bcolors.HEADER}{bcolors.BOLD}Part PDF Link: {bcolors.ENDC} \n")
 manufacturer_website = input(f"{bcolors.HEADER}{bcolors.BOLD}Manufacturer Website: {bcolors.ENDC}\n ")
 expected_day_of_usage = input(f"{bcolors.HEADER}{bcolors.BOLD}When do you except to use it? {bcolors.ENDC}\n")
-body = f"""Manufacturer: 
-Manufacturer part number: {manufacturer_part_number}
-Footprint: {footprint}
-Product package type: {product_package_type}
-Part pdf links(or pdf file): {part_pdf_link}
-manufacturer website: {manufacturer_website}
-It is expected to be used in days: {expected_day_of_usage} """
-message = f""" From: {sender}
- To: {receiver}
- Subject: {subject}\n
- {body}
- """
+receiver = "rayanciao09@gmail.com"
+    
+subject = "New Part Require"
+body = """"""
+#header 
+
+
+print(sender)
+print(password)
+server =  smtplib.SMTP("smtp.gmail.com",  587)
+server.starttls()
+body = f"""
+    Manufacturer: {manufacturer} 
+    Manufacturer part number: {manufacturer_part_number}
+    Footprint: {footprint}
+    Product package type: {product_package_type}
+    Part pdf links(or pdf file): {part_pdf_link}
+    manufacturer website: {manufacturer_website}
+    It is expected to be used in days: {expected_day_of_usage} """
+msg = EmailMessage()
+msg.set_content(body)
+msg['Subject'] = subject
+msg['From'] = sender
+msg['To'] = receiver
 try:
-    server.login(sender, password)
-    print("Logged In...")
-    server.sendmail(sender, receiver, message)
-    print("Part requested")
+        server.login(sender, password)
+        server.send_message(msg)
+        #need to add feedbacks
 except smtplib.SMTPAuthenticationError:
-    print("Unable to log in")
-    print('Please, make sure your email and password are correct')
+        print("Error")
 server.quit()
