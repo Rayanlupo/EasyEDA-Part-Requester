@@ -1,10 +1,15 @@
 import smtplib
-import os
+
 from dotenv import load_dotenv
-import tkinter as tk
+
 from email.message import EmailMessage
+import config
+import configparser
+config = configparser.ConfigParser()
 load_dotenv()
-   
+
+
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -31,11 +36,14 @@ product_package_type = ""
 part_pdf_link = ""
 manufacturer_website = ""
 excepted_day_of_usage = ""
+try:
+    config.read('config.ini')
+except:
+    print("Failed to find the config file")
 
-
-sender = os.getenv("YOUR_EMAIL")
-receiver = "rayanciao09@gmail.com"
-password = os.getenv("PASSWORD")
+sender = config["Gmail Credentials"]["YOUR_EMAIL"]
+receiver = "haidy@easyeda.com"
+password = config["Gmail Credentials"]["YOUR_PASSWORD"]
 subject = "New Part Require"
 body = """"""
  #header 
