@@ -4,3 +4,4 @@ build
 dist/libpython3.11.so.1.0
 app.spec
 script.spec
+/qodana.yaml

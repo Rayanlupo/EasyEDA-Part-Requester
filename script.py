@@ -1,16 +1,15 @@
+import configparser
 import smtplib
-
+from pathlib import Path
+from email.message import EmailMessage
 from dotenv import load_dotenv
 
-from email.message import EmailMessage
-import config
-import configparser
 config = configparser.ConfigParser()
 load_dotenv()
 
+home =  pathlib.Path.home()
 
-
-class bcolors:
+class Bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -36,13 +35,20 @@ product_package_type = ""
 part_pdf_link = ""
 manufacturer_website = ""
 excepted_day_of_usage = ""
+if '.config.cfg' not in home:
+    with open(home, '.config.cfg') as file:
+        file.write("""
+        [Gmail Credentials]\n
+YOUR_EMAIL=your_email@example.com\n
+YOUR_PASSWORD=your_password
+        """)
 try:
-    config.read('config.ini')
+    config.read('.config.cfg')
 except:
     print("Failed to find the config file")
 
 sender = config["Gmail Credentials"]["YOUR_EMAIL"]
-receiver = "haidy@easyeda.com"
+receiver = "rayanciao09@gmail.com"
 password = config["Gmail Credentials"]["YOUR_PASSWORD"]
 subject = "New Part Require"
 body = """"""
@@ -53,14 +59,48 @@ print(sender)
 print(password)
 server =  smtplib.SMTP("smtp.gmail.com",  587)
 server.starttls()
-manufacturer = input(f"{bcolors.HEADER}{bcolors.BOLD  }Manufacturer:{bcolors.ENDC} \n")
-manufacturer_part_number = input(f"{bcolors.HEADER}{bcolors.BOLD}Manufacturer Part Number: {bcolors.ENDC} \n")
-footprint = input(f"{bcolors.HEADER}{bcolors.BOLD}Footprint: {bcolors.ENDC}\n ")
-product_package_type = input(f"{bcolors.HEADER}{bcolors.BOLD}Product Package Type: {bcolors.ENDC}\n ")
-part_pdf_link = input(f"{bcolors.HEADER}{bcolors.BOLD}Part PDF Link: {bcolors.ENDC} \n")
-manufacturer_website = input(f"{bcolors.HEADER}{bcolors.BOLD}Manufacturer Website: {bcolors.ENDC}\n ")
-expected_day_of_usage = input(f"{bcolors.HEADER}{bcolors.BOLD}When do you except to use it? {bcolors.ENDC}\n")
-
+try:
+    manufacturer = input(f"{Bcolors.HEADER}{Bcolors.BOLD  }Manufacturer:{Bcolors.ENDC} \n")
+except KeyboardInterrupt:
+    print("Quitting...")
+    exit()
+    server.quit()
+try:
+    manufacturer_part_number = input(f"{Bcolors.HEADER}{Bcolors.BOLD}Manufacturer Part Number: {Bcolors.ENDC} \n")
+except KeyboardInterrupt:
+    print("Quitting...")
+    exit()
+    server.quit()
+try:
+    footprint = input(f"{Bcolors.HEADER}{Bcolors.BOLD}Footprint: {Bcolors.ENDC}\n ")
+except KeyboardInterrupt:
+    print("Quitting...")
+    exit()
+    server.quit()
+try:
+    product_package_type = input(f"{Bcolors.HEADER}{Bcolors.BOLD}Product Package Type: {Bcolors.ENDC}\n ")
+except KeyboardInterrupt:
+    print("Quitting...")
+    exit()
+    server.quit()
+try:
+    part_pdf_link = input(f"{Bcolors.HEADER}{Bcolors.BOLD}Part PDF Link: {Bcolors.ENDC} \n")
+except KeyboardInterrupt:
+    print("Quitting...")
+    exit()
+    server.quit()
+try:
+    manufacturer_website = input(f"{Bcolors.HEADER}{Bcolors.BOLD}Manufacturer Website: {Bcolors.ENDC}\n ")
+except KeyboardInterrupt:
+    print("Quitting...")
+    exit()
+    server.quit()
+try:
+    expected_day_of_usage = input(f"{Bcolors.HEADER}{Bcolors.BOLD}When do you except to use it? {Bcolors.ENDC}\n")
+except KeyboardInterrupt:
+    print("Quitting...")
+    exit()
+    server.quit()
 
 server =  smtplib.SMTP("smtp.gmail.com",  587)
 server.starttls()
@@ -81,7 +121,7 @@ msg['To'] = receiver
 try:
     server.login(sender, password)
     server.send_message(msg)
-    print(f"{bcolors.OKGREEN}{bcolors.BOLD}Success", "Part requested successfully!")
+    print(f"{Bcolors.OKGREEN}{ Bcolors.BOLD}Success", "Part requested successfully!")
 except smtplib.SMTPAuthenticationError:
-    print(f"{bcolors.FAIL}{bcolors.BOLD}Error", "Unable to log in. Please, make sure your email and password are correct. {bcolors.ENDC}")
+    print(f"{Bcolors.FAIL}{Bcolors.BOLD}Error", "Unable to log in. Please, make sure your email and password are correct. {bcolors.ENDC}")
 server.quit()
