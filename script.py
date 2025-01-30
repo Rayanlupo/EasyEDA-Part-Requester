@@ -1,9 +1,11 @@
 import configparser
+import os
 import smtplib
-from pathlib import Path
+import pathlib
+import sys
 from email.message import EmailMessage
 from dotenv import load_dotenv
-
+from pathlib import Path
 config = configparser.ConfigParser()
 load_dotenv()
 
@@ -24,7 +26,24 @@ class Bcolors:
 
 
 
-
+home = Path.home()
+documents = Path.home() / 'Documents'
+def config_file(name, path):
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            return True
+        else:
+            return False
+if config_file('.easy-eda-part-requester-config.cfg', documents) == False:
+    with open(os.path.join(documents,  '.easy-eda-part-requester-config.cfg'), "w") as file:
+        file.write("""
+[Gmail Credentials]
+YOUR_EMAIL=your_email@example.com
+YOUR_PASSWORD=your_password
+        """)
+        file.close()
+        print("Config file created in the documents folder")
+        sys.exit()
 
 
 # Component Infos
@@ -35,17 +54,12 @@ product_package_type = ""
 part_pdf_link = ""
 manufacturer_website = ""
 excepted_day_of_usage = ""
-if '.config.cfg' not in home:
-    with open(home, '.config.cfg') as file:
-        file.write("""
-        [Gmail Credentials]\n
-YOUR_EMAIL=your_email@example.com\n
-YOUR_PASSWORD=your_password
-        """)
+
 try:
     config.read('.config.cfg')
 except:
     print("Failed to find the config file")
+
 
 sender = config["Gmail Credentials"]["YOUR_EMAIL"]
 receiver = "rayanciao09@gmail.com"
