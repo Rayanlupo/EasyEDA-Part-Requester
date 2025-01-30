@@ -56,7 +56,7 @@ manufacturer_website = ""
 excepted_day_of_usage = ""
 
 try:
-    config.read('.config.cfg')
+    config.read('.easy-eda-part-requester-config.cfg')
 except:
     print("Failed to find the config file")
 

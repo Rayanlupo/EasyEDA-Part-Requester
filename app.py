@@ -1,12 +1,48 @@
-import smtplib
-from email.message import EmailMessage
+import configparser
 import os
-from dotenv import load_dotenv
+import smtplib
+
+from email.message import EmailMessage
+
+from pathlib import Path
 import tkinter as tk
 from tkinter import messagebox
-load_dotenv()
-sender = os.getenv("YOUR_EMAIL")
-password = os.getenv("PASSWORD")
+email = ""
+password = ""
+home = Path.home()
+documents = Path.home() / 'Documents'
+def config_file(name, path):
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            return True
+        else:
+            return False
+if config_file('.easy-eda-part-requester-config.cfg', documents) == False:
+
+    root = tk.Tk()
+
+    root.title="Config E.E.P.R."
+    tk.Label(root, text="Email:").grid(row=0, column=0)
+    email_entry = tk.Entry(root)
+    email_entry.grid(row=0, column=1)
+    tk.Label(root, text="Password:").grid(row=1, column=0)
+    password_entry = tk.Entry(root)
+    password_entry.grid(row=1, column=1)
+    def get_credentials():
+        email = email_entry
+        password = password_entry
+        return email, password
+    email = get_credentials()
+    password = get_credentials()
+    submit_button = tk.Button(root, text="Submit", command=get_credentials)
+    submit_button.grid(row=2, columnspan=2)
+    with open(os.path.join(documents,  '.easy-eda-part-requester-config.cfg'), "w") as file:
+        file.write(f"""
+[Gmail Credentials]
+YOUR_EMAIL={email}
+YOUR_PASSWORD={password}
+        """)
+        file.close
 
 
 
@@ -63,7 +99,7 @@ def sendEmail():
     part_pdf_link = part_pdf_link_entry.get()
     manufacturer_website = manufacturer_website_entry.get()
     expected_day_of_usage = excepted_day_of_usage_entry.get()
-    
+    sender = email
     receiver = "rayanciao09@gmail.com"
     
     subject = "New Part Require"
