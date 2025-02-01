@@ -43,7 +43,7 @@ Edit the .env file to add your email and your password
 #### If your account has 2FA on 
 you have to generate an app password from the your google account settings:
 1. Go to Setting -> Security -> 2-Step Verification -> App Passwords
-2. Insert the name you prefer and click "Generate", it will show the password only once so make sure to copy adn paste it into the .env file before closing the window.
+2. Insert the name you prefer and click "Generate", it will show the password only once so make sure to copy and paste it into the .cfg file in your documents folder before closing the window or generate a new config file by just running the application for the first time and by filling up the form that'll pop up.
 ```plaintext
 EMAIL=your_email@example.com
 PASSWORD=your_password
