@@ -4,7 +4,7 @@ A python script to request parts from EasyEDA
 let's assume you need some part for your projetc in EasyEDA, but the part is not available from their library, using this app you can 
 
 ## Installation
-1. Download the latest release from the [Releases](https://github.com/Rayanlupo/EasyEDA-Part-Requester) page.
+1. Download the latest release from the [Releases](https://github.com/Rayanlupo/EasyEDA-Part-Requester) page. (Coming)
 2. open `.env`
 2. Replace `your_email@example.com` and `your_password` with your actual email and password.
 3. Save the file.. 
