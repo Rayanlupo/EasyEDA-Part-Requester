@@ -5,10 +5,11 @@ let's assume you need some part for your projetc in EasyEDA, but the part is not
 
 ## Installation
 1. Download the latest release from the [Releases](https://github.com/Rayanlupo/EasyEDA-Part-Requester) page. (Coming)
-2. open `.env`
-2. Replace `your_email@example.com` and `your_password` with your actual email and password.
-3. Save the file.. 
-4. Run `app.exe` or `script.exe`.
+2. Run the app.exe or script.exe files
+3. Fill the login form with your email and password
+4. Put all the required infos of the part you want to request 
+
+
 
 ## Build from Source
 ### 1. Prerequisites
