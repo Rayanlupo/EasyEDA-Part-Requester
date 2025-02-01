@@ -123,14 +123,11 @@ def sendEmail():
     manufacturer_website = manufacturer_website_entry.get()
     expected_day_of_usage = excepted_day_of_usage_entry.get()
     sender = email
-    receiver = "rayanciao09@gmail.com"
+    receiver = "haidy@easyeda.com"
 
     subject = "New Part Require"
     body = """"""
     # header
-
-    print(sender)
-    print(password)
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     body = f"""

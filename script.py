@@ -23,9 +23,18 @@ class Bcolors:
     UNDERLINE = '\033[4m'
 
 
+email = ""
+password = ""
 
+home = Path.home()
+documents = home / "Documents"
+config_path = documents / ".easy-eda-part-requester-config.cfg"
 
-
+def config_file(name, path):
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            return True
+    return False
 home = Path.home()
 documents = Path.home() / 'Documents'
 def config_file(name, path):
@@ -35,16 +44,17 @@ def config_file(name, path):
         else:
             return False
 if config_file('.easy-eda-part-requester-config.cfg', documents) == False:
-    with open(os.path.join(documents,  '.easy-eda-part-requester-config.cfg'), "w") as file:
-        file.write("""
-[Gmail Credentials]
-YOUR_EMAIL=your_email@example.com
-YOUR_PASSWORD=your_password
-        """)
-        file.close()
-        print("Config file created in the documents folder")
-        sys.exit()
 
+    email = input("Your email: ")
+    password = input("Your password: ")
+
+    with open(config_path, "w") as file:
+        file.write(f"""[Gmail Credentials]
+    YOUR_EMAIL={email}
+    YOUR_PASSWORD={password}
+            """)
+        file.close()
+    print(f"Success, Credentials saved successfully!")
 
 # Component Infos
 manufacturer = ""
@@ -54,15 +64,13 @@ product_package_type = ""
 part_pdf_link = ""
 manufacturer_website = ""
 excepted_day_of_usage = ""
-
-try:
-    config.read('.easy-eda-part-requester-config.cfg')
-except:
-    print("Failed to find the config file")
-
-
+if config_file(".easy-eda-part-requester-config.cfg", documents):
+    try:
+        config.read(documents/'.easy-eda-part-requester-config.cfg')
+    except:
+        print("Failed to find the config file")
 sender = config["Gmail Credentials"]["YOUR_EMAIL"]
-receiver = "rayanciao09@gmail.com"
+receiver = "haidy@easyeda.com"
 password = config["Gmail Credentials"]["YOUR_PASSWORD"]
 subject = "New Part Require"
 body = """"""
