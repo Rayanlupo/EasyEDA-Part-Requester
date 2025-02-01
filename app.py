@@ -1,58 +1,80 @@
-import configparser
 import os
 import smtplib
 
 from email.message import EmailMessage
 
 from pathlib import Path
+import os
+import smtplib
+from email.message import EmailMessage
+from pathlib import Path
 import tkinter as tk
 from tkinter import messagebox
+
+# Global Variables
 email = ""
 password = ""
+
+# File Paths
 home = Path.home()
-documents = Path.home() / 'Documents'
+documents = home / "Documents"
+config_path = documents / ".easy-eda-part-requester-config.cfg"
+
+# Check if config file exists
 def config_file(name, path):
     for root, dirs, files in os.walk(path):
         if name in files:
             return True
-        else:
-            return False
-if config_file('.easy-eda-part-requester-config.cfg', documents) == False:
+    return False
 
-    root = tk.Tk()
+# Load Credentials
+def load_credentials():
+    global email, password
+    if config_path.exists():
+        with open(config_path, "r") as file:
+            lines = file.readlines()
+            for line in lines:
+                if line.startswith("YOUR_EMAIL="):
+                    email = line.split("=")[1].strip()
+                elif line.startswith("YOUR_PASSWORD="):
+                    password = line.split("=")[1].strip()
 
-    root.title="Config E.E.P.R."
-    tk.Label(root, text="Email:").grid(row=0, column=0)
-    email_entry = tk.Entry(root)
-    email_entry.grid(row=0, column=1)
-    tk.Label(root, text="Password:").grid(row=1, column=0)
-    password_entry = tk.Entry(root)
-    password_entry.grid(row=1, column=1)
-    def get_credentials():
-        email = email_entry
-        password = password_entry
-        return email, password
-    email = get_credentials()
-    password = get_credentials()
-    submit_button = tk.Button(root, text="Submit", command=get_credentials)
-    submit_button.grid(row=2, columnspan=2)
-    with open(os.path.join(documents,  '.easy-eda-part-requester-config.cfg'), "w") as file:
-        file.write(f"""
-[Gmail Credentials]
+# Save Credentials
+def get_credentials():
+    global email, password
+    email = email_entry.get()
+    password = password_entry.get()
+    with open(config_path, "w") as file:
+        file.write(f"""[Gmail Credentials]
 YOUR_EMAIL={email}
 YOUR_PASSWORD={password}
         """)
-        file.close
+    messagebox.showinfo("Success", "Credentials saved successfully!")
+    root.destroy()
 
+# Config Window
+if not config_file('.easy-eda-part-requester-config.cfg', documents):
+    root = tk.Tk()
+    root.title("Config E.E.P.R.")
 
+    tk.Label(root, text="Email:").grid(row=0, column=0)
+    email_entry = tk.Entry(root)
+    email_entry.grid(row=0, column=1)
 
+    tk.Label(root, text="Password:").grid(row=1, column=0)
+    password_entry = tk.Entry(root, show="*")
+    password_entry.grid(row=1, column=1)
 
-#setting up tkinter
+    submit_button = tk.Button(root, text="Save", command=get_credentials)
+    submit_button.grid(row=2, columnspan=2)
+
+    root.mainloop()
+else:
+    load_credentials()
+
+# Main Application Window
 root = tk.Tk()
 root.title("EasyEDA Part Request")
-
-
-
 
 # Component Infos
 manufacturer = ""
@@ -91,6 +113,7 @@ tk.Label(root, text="When do you expect to use it?:").grid(row=6, column=0)
 excepted_day_of_usage_entry = tk.Entry(root)
 excepted_day_of_usage_entry.grid(row=6, column=1)
 
+
 def sendEmail():
     manufacturer = manufacturer_entry.get()
     manufacturer_part_number = manufacturer_part_number_entry.get()
@@ -101,15 +124,14 @@ def sendEmail():
     expected_day_of_usage = excepted_day_of_usage_entry.get()
     sender = email
     receiver = "rayanciao09@gmail.com"
-    
+
     subject = "New Part Require"
     body = """"""
-    #header 
-
+    # header
 
     print(sender)
     print(password)
-    server =  smtplib.SMTP("smtp.gmail.com",  587)
+    server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     body = f"""
     Manufacturer: {manufacturer} 
@@ -132,7 +154,9 @@ def sendEmail():
         messagebox.showerror("Error", "Unable to log in. Please, make sure your email and password are correct.")
     server.quit()
 
-submit_button = tk.Button(root, text="Submit", command = sendEmail)
+
+submit_button = tk.Button(root, text="Submit", command=sendEmail)
 submit_button.grid(row=7, columnspan=2)
 
 root.mainloop()
+
